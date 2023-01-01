@@ -8,8 +8,9 @@
 
 <body>
     <p>ゲームUIです。</p>
-    <button onclick="clickBtn()">ボタンを押してください</button>
     
+    <input type="text" id="body" size="40">
+    <input type="button" value="send" id="send">
     <!--- JavaScriptインラインスクリプト -->
     <script type = "text/javascript" >
         function clickBtn() {
@@ -17,11 +18,12 @@
         }
         
         //console.log(b);
-        function send(){
+        function send_body(){
+            body = document.getElementById('body');
             const controller = new AbortController();
-            fetch("http://"+ipAdress+":8888/"+"abc",{
+            fetch("http://"+ipAdress+":8888/"+"kask",{
                 method: 'POST',
-                body: "6",
+                body: body,
                 signal : controller.signal
             })
             //172.16.211.185
@@ -44,9 +46,10 @@
 
         }
 
-        ipAdress = "115.39.101.198";
-
-        send();
+        ipAdress = "192.168.0.5";
+        let send =document.getElementById('send');
+        send.addEventListener('click', send_body);
+        //send();
 
     </script>   
 </body>
