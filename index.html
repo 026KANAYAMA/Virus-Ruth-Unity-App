@@ -3,30 +3,67 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>COVID-GAME</title>
+    <title>Virus-Ruth</title>
 </head>
 
 <body>
-    <p>ゲームUIです。</p>
-    
-    <input type="text" id="body" size="40">
-    <input type="button" value="send" id="send">
-    <!--- JavaScriptインラインスクリプト -->
+    <!--Text box for IP address-->
+    <label>IP address : <input type="text" id="ip" size=""40></label>
+
+    <!--Radio button for player selection-->
+    <p>Select a player<br>
+        <input type="radio" name="player" value="Virus" checked> Virus
+        <input type="radio" name="player" value="People"> People
+    </p>
+
+    <!---Button to move the player-->
+    <button class="btn" id="left">⏪</button>
+    <button class="btn" id="up">⏫</button>
+    <button class="btn" id="right">⏩</button>
+    <button class="btn" id="down">⏬</button>
+
+
+
+    <!---JavaScriptインラインスクリプト--->
     <script type = "text/javascript" >
-        function clickBtn() {
-            alert('Javascriptを使ってアラートを表示しています！');
+        //変数の宣言・初期化
+        const btn = document.getElementsByClassName("btn");
+        const left = document.getElementById("left");
+        const up = document.getElementById("up");
+        const right = document.getElementById("right");
+        const down = document.getElementById("down");
+        let direct = "0";
+
+        //directに1を設定する関数
+        function set_one(event){
+            direct = "1";
         }
-        
-        //console.log(b);
-        function send_body(){
-            body = document.getElementById('body');
+        //directに2を設定する関数
+        function set_two(event){
+            direct = "2";
+        }
+        //directに3を設定する関数
+        function set_three(event){
+            direct = "3";
+        }
+        //directに4を設定する関数
+        function set_four(event){
+            direct = "4";
+        }
+
+        //piping severにどの方向ボタンを押したのか送信する関数
+        function to_piping_sever(event){
+
+            let ip = document.getElementById("ip").value;
+            const player = document.querySelector('input[name="player"]:checked').value;
+
             const controller = new AbortController();
-            fetch("http://"+ipAdress+":8888/"+"kask",{
+            fetch("http://"+ip+":8888/"+ player,{
                 method: 'POST',
-                body: body,
+                body: direct,
                 signal : controller.signal
             })
-            //172.16.211.185
+
             //通信に失敗したエラー
             .then(async res => {
                 if(!res.ok){
@@ -43,15 +80,22 @@
             setTimeout(() => {
                 controller.abort();
             }, 1000/30);
-
+                    
         }
 
-        ipAdress = "192.168.0.5";
-        let send =document.getElementById('send');
-        send.addEventListener('click', send_body);
-        //send();
+        //方向ボタンそれぞれのイベントリスナーアクションを登録
+        left.addEventListener("click", set_one);
+        up.addEventListener("click", set_two);
+        right.addEventListener("click", set_three);
+        down.addEventListener("click", set_four);
+
+        //方向ボタンのイベントリスナにアクションを登録
+        for(let i=0; i<btn.length; i++){
+            btn[i].addEventListener("click",to_piping_sever);
+        }
 
     </script>   
+    
 </body>
 
 </html>
