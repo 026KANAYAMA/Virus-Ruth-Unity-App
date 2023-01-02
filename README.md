@@ -1,1 +1,1 @@
-# Virus-Ruth
+## Virus-Ruth is a game.
