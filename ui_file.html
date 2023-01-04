@@ -81,14 +81,14 @@
             let ip = document.getElementById("ip").value;
             const player = document.querySelector('input[name="player"]:checked').value;
 
-            const controller = new AbortController();
+            //const controller = new AbortController();
             fetch("http://"+ip+":8888/"+ player,{
                 method: 'POST',
                 body: direct,
-                signal : controller.signal
+                //signal : controller.signal
             })
 
-            //通信に失敗したエラー
+            /*//通信に失敗したエラー
             .then(async res => {
                 if(!res.ok){
                     throw new Error(`Request Failed: ${res.status}`);
@@ -104,7 +104,7 @@
             setTimeout(() => {
                 controller.abort();
             }, 1000/30);
-                    
+            */       
         }
 
         //方向ボタンそれぞれのイベントリスナーアクションを登録
