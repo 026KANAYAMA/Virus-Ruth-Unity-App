@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Threading.Tasks;
 
 public class Entry : MonoBehaviour
 {
@@ -16,7 +17,13 @@ public class Entry : MonoBehaviour
     public static Transform vPos;
 
     private int cnt=0;
-    private int cntDown = 7;
+
+    private string pNum = "0";
+    private string vNum = "0";
+
+    Task<string> peopleTask = null;
+    Task<string> virusTask = null;
+    int check = 0;
 
 
     void Awake(){
@@ -45,13 +52,34 @@ public class Entry : MonoBehaviour
         cnt++;
         if(cnt % 480 == 0){    //8秒ごとに実行
             //Debug.Log(cnt);
-            directionNum = "4"; moveObj = "virus";
-            move.excute(directionNum, moveObj);
-            directionNum = "1"; moveObj = "people";
-            move.excute(directionNum, moveObj);
-            
-        }
+            //directionNum = "4"; moveObj = "virus";
+            //move.excute(directionNum, moveObj);
+            //directionNum = "1"; moveObj = "people";
+            //move.excute(directionNum, moveObj);
+            peopleTask = piping.htpAsync("People");
+            virusTask = piping.htpAsync("Virus");
+            check = 1;
+            Debug.Log("実行のタイミングです");
 
+        }
+        try{
+            if(peopleTask.IsCompleted && check == 1){
+
+            pNum = peopleTask.Result;
+            vNum = virusTask.Result;
+            Debug.Log(pNum);
+            Debug.Log(vNum);
+            //vNum = piping.htp("Virus").Result;
+            //pNum = piping.htp("People").Result; 
+            //move.excute(vNum, "Virus");
+            move.excute(pNum, "People");
+            move.excute(vNum, "Virus");
+            check = 0;
+            }
+        }
+        catch(NullReferenceException){
+            Debug.Log("例外をスルーしました");
+        }
         
     }
 
