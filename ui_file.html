@@ -12,6 +12,9 @@
         div{
             text-align:center;
         }
+        button{
+            font-size:100px;
+        }
 
     </style>
 </head>
@@ -19,18 +22,18 @@
 <body>
     <div>
         <!--Text box for IP address-->
-        <label>IP address : <input type="text" id="ip" style="width:400px;height:80px;font-size:50px;"></label>
+        <label>IP addres:<input type="text" id="ip" style="width:400px;height:80px;font-size:50px;"></label>
 
         <!--Radio button for player selection-->
-        <p>Select a player<br>
-            <input type="radio" name="player" value="Virus" checked> Virus
-            <input type="radio" name="player" value="People"> People
+        <p style="font-size:50px;">Select a player<br>
+            <input type="radio" name="player" value="Virus" checked style="transform:scale(3.0);"> Virus
+            <input type="radio" name="player" value="People" style="transform:scale(3.0);"> People
         </p>
 
         <!---Button to move the player-->
-        <button class="btn" id="left">⏪</button>
+        <button class="btn" id="left" >⏪</button>
         <button class="btn" id="up">⏫</button>
-        <button class="btn" id="right">⏩</button>
+        <button class="btn" id="right">⏩</button><br>
         <button class="btn" id="down">⏬</button>
     </div>
 
