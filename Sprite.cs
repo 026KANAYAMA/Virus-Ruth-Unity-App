@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class Sprite : MonoBehaviour
 {
@@ -11,10 +12,16 @@ public class Sprite : MonoBehaviour
 
     public int tern = 6;
 
+    public GameObject ternText;
+    public static Text obj;
+
     void Start()
     {
         //カウントダウンの数字
         baseSprite = GetComponent<SpriteRenderer>();
+
+        ternText = GameObject.Find("Text");
+        obj = ternText.GetComponent<Text>();
     }
 
     void Update()
@@ -29,13 +36,16 @@ public class Sprite : MonoBehaviour
                 baseSprite.sprite = null;
             }
             else if(cntDown == 6){
-                if(tern>=2){
-                    Debug.Log($"残り{tern}ターン"); //仮
-                }
-                else if(tern == 1){
-                    Debug.Log("ラストターン");
-                }
+                Tern.display(tern);
                 tern--;
+            }
+            //カウントダウンが終わり、次のカウントダウンの頭(7)の時、VirusとPeopleが同じマスにいるか判定する
+            if(cntDown == 7){
+                Judge.excute();
+            }
+
+            if(cntDown == 1){
+                Tern.banish();
             }
 
             cntDown--;
