@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using System.Threading.Tasks;
+using System.Net.Http;
 
 public class Entry : MonoBehaviour
 {
@@ -26,6 +27,7 @@ public class Entry : MonoBehaviour
     int check = 0;
 
 
+
     void Awake(){
         QualitySettings.vSyncCount = 0;
         Application.targetFrameRate = 60;   //フレームレートを1/60秒に設定
@@ -33,9 +35,6 @@ public class Entry : MonoBehaviour
 
     void Start()
     {
-        //var vi = new piping();
-        //vi.firstName = "龍起";
-        //Debug.Log(vi.firstName);
 
         pObj= GameObject.Find("people");
         vObj= GameObject.Find("virus");
@@ -51,17 +50,13 @@ public class Entry : MonoBehaviour
     {
         cnt++;
         if(cnt % 480 == 0){    //8秒ごとに実行
-            //Debug.Log(cnt);
-            //directionNum = "4"; moveObj = "virus";
-            //move.excute(directionNum, moveObj);
-            //directionNum = "1"; moveObj = "people";
-            //move.excute(directionNum, moveObj);
+        
             peopleTask = piping.htpAsync("People");
             virusTask = piping.htpAsync("Virus");
             check = 1;
             Debug.Log("実行のタイミングです");
-
         }
+        
         try{
             if(peopleTask.IsCompleted && check == 1){
 
@@ -69,9 +64,7 @@ public class Entry : MonoBehaviour
             vNum = virusTask.Result;
             Debug.Log(pNum);
             Debug.Log(vNum);
-            //vNum = piping.htp("Virus").Result;
-            //pNum = piping.htp("People").Result; 
-            //move.excute(vNum, "Virus");
+        
             move.excute(pNum, "People");
             move.excute(vNum, "Virus");
             check = 0;
@@ -83,5 +76,4 @@ public class Entry : MonoBehaviour
         
     }
 
-    
 }
