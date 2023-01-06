@@ -1,16 +1,12 @@
 using UnityEngine;
 using System;
-using System.IO;
 using System.Net.Http;
 using System.Threading.Tasks;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine.Networking;
+
 
 public class piping
 {
     private static readonly HttpClient httpClient = new HttpClient();
-
 
 
     public async static Task<string> htpAsync(string player)
@@ -24,16 +20,22 @@ public class piping
         else if(player == "People"){
             key = "People";
         }
-        
-        //await numDirect = 
-        var numDirect = await Getman();
-        
-        Task<string> Getman(){
-            Task<string> num  = httpClient.GetStringAsync($"http://192.168.0.5:8888/{key}");
-            //Debug.Log(num);
-            return num;
-        }
 
+        Debug.Log($"http://{InputField.ip}/{key}");
+        
+        var numDirect = await Task.Run<string>(async () => {
+            try
+            {
+                return await httpClient.GetStringAsync($"http://{InputField.ip}:8888/{key}");
+            }
+            catch(HttpRequestException)
+            {
+                Debug.Log("HttpRequestExceptionが起こりました");
+                return string.Empty;
+            }
+        });
+        
+        
         return numDirect;
     }
         
