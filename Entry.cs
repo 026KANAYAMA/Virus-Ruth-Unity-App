@@ -35,10 +35,8 @@ public class Entry : MonoBehaviour
 
     void Start()
     {
-
         pObj= GameObject.Find("people");
         vObj= GameObject.Find("virus");
-
         
         //デフォルトのpeopleの位置は(-3.27, -3.27, -1)
         pPos = pObj.GetComponent<Transform>();
