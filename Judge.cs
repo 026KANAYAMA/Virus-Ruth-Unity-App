@@ -12,7 +12,7 @@ public class Judge
         Vector3 people = Entry.pPos.position;
 
         float x_abs = Math.Abs(virus.x - people.x);
-        float y_abs = Math.Abs(virus.y - virus.y);
+        float y_abs = Math.Abs(virus.y - people.y);
 
         if(x_abs <= 1 && y_abs <= 1){
             SceneManager.LoadScene("VirusWinScenes");
