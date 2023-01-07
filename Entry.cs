@@ -26,7 +26,12 @@ public class Entry : MonoBehaviour
     Task<string> virusTask = null;
     int check = 0;
 
+    public GameObject people;
+    public static SpriteRenderer peopleSprite;
+    public SpriteRenderer[] pSprite = new SpriteRenderer[2];
 
+    public int peopleUsed = 0;
+    public int allChecked = 0;
 
     void Awake(){
         QualitySettings.vSyncCount = 0;
@@ -42,17 +47,31 @@ public class Entry : MonoBehaviour
         pPos = pObj.GetComponent<Transform>();
         vPos = vObj.GetComponent<Transform>();
         
+        people = GameObject.Find("people");
+        peopleSprite = people.GetComponent<SpriteRenderer>();
     }
 
     void Update()   //1秒あたり60フレーム
     {
         cnt++;
         if(cnt % 480 == 0){    //8秒ごとに実行
+
+            if(Sprite.checkedUse == 1 && peopleUsed == 0){
+                Sprite.wakutinEnd();
+                peopleSprite.sprite = null;
+                //Debug.Log("nullになりました？");
+                peopleUsed = 1;
+                allChecked = 0;
+            }
+
+            
+            allChecked++;
         
             peopleTask = piping.htpAsync("People");
             virusTask = piping.htpAsync("Virus");
             check = 1;
-            Debug.Log("実行のタイミングです");
+            Debug.Log(allChecked);
+
         }
         
         try{
@@ -60,8 +79,8 @@ public class Entry : MonoBehaviour
 
             pNum = peopleTask.Result;
             vNum = virusTask.Result;
-            Debug.Log(pNum);
-            Debug.Log(vNum);
+            //Debug.Log(pNum);
+            //Debug.Log(vNum);
         
             move.excute(pNum, "People");
             move.excute(vNum, "Virus");
@@ -69,9 +88,12 @@ public class Entry : MonoBehaviour
             }
         }
         catch(NullReferenceException){
-            Debug.Log("例外をスルーしました");
+            //Debug.Log("例外をスルーしました");
         }
-        
+
+        if(peopleUsed == 1 && allChecked == 2){
+            peopleSprite.sprite = pSprite[0].sprite; 
+        }
     }
 
 }
