@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class Sprite : MonoBehaviour
 {
     public SpriteRenderer baseSprite;
-    public SpriteRenderer[] targetSprite = new SpriteRenderer[5];
+    public SpriteRenderer[] targetSprite = new SpriteRenderer[6];
 
     private int cnt=0;
     private int cntDown = 7;
@@ -15,10 +15,18 @@ public class Sprite : MonoBehaviour
     public GameObject ternText;
     public static Text obj;
 
+    public GameObject wakutin;
+    public static SpriteRenderer wakutin_base;
+    public static int checkedUse = 0;
+
+
     void Start()
     {
         //カウントダウンの数字
         baseSprite = GetComponent<SpriteRenderer>();
+        
+        wakutin = GameObject.Find("wakutin");
+        wakutin_base = wakutin.GetComponent<SpriteRenderer>();
 
         ternText = GameObject.Find("Text");
         obj = ternText.GetComponent<Text>();
@@ -29,6 +37,12 @@ public class Sprite : MonoBehaviour
         cnt++;
         
         if(cnt % 60 == 0 ){
+            Debug.Log($"現在のvoie.maxは{Voice.max}");
+            if(Voice.max >= 0.5f && checkedUse == 0){
+                wakutin_base.sprite = targetSprite[5].sprite;
+                checkedUse = 1;
+            }
+
             if(cntDown >= 1 && cntDown <= 5){
                 baseSprite.sprite = targetSprite[cntDown-1].sprite; 
             }
@@ -61,4 +75,10 @@ public class Sprite : MonoBehaviour
             
         }
     }
+
+    public static void wakutinEnd(){
+        wakutin_base.sprite = null;
+    }
+    
+
 }
